@@ -55,7 +55,7 @@ public class City implements Serializable {
     this.name = tokens[1];
     this.latitude = toDouble(tokens[4], null);
     this.longitude = toDouble(tokens[5], null);
-    this.countryCode = tokens[8];
+    this.countryCode = tokens[8].equals("PS")?"IL":tokens[8];
     this.timeZone = tokens[17];
 
     String admin1Code = tokens[10];
