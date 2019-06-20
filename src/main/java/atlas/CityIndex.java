@@ -142,16 +142,28 @@ public class CityIndex implements Serializable {
   public static void main(String[] args) throws FileNotFoundException{
 
     Set<String> countryCodes = new HashSet<>();
+    Set<String> skipCountryCodes = new HashSet<>();
 
     if (args.length > 0) {
-      countryCodes.addAll(Arrays.asList(args[0].toUpperCase().split(",")));
+      for (String arg: Arrays.asList(args[0].toUpperCase().trim().split(","))) {
+        if (arg.startsWith("~"))
+          skipCountryCodes.add(arg.substring(1));
+        else {
+          countryCodes.add(arg);
+        }
+      }
     }
 
-    if (countryCodes.isEmpty()) {
+    if (countryCodes.isEmpty() && skipCountryCodes.isEmpty()) {
       System.out.printf("Reading all cities from %s/%s\n", DATA_FOLDER_NAME, ADMIN1_DATA_FILE_NAME);
     }
     else {
-      System.out.printf("Reading cities with country codes %s from %s/%s\n", countryCodes, DATA_FOLDER_NAME, ADMIN1_DATA_FILE_NAME);
+      if (!countryCodes.isEmpty()) {
+        System.out.printf("Reading cities with country codes %s from %s/%s\n", countryCodes, DATA_FOLDER_NAME, ADMIN1_DATA_FILE_NAME);
+      }
+      if (!skipCountryCodes.isEmpty()) {
+        System.out.printf("Skipping cities with country codes %s from %s/%s\n", skipCountryCodes, DATA_FOLDER_NAME, ADMIN1_DATA_FILE_NAME);
+      }
     }
 
     Map<String, String> adminMap = new LinkedHashMap<>();
@@ -167,7 +179,7 @@ public class CityIndex implements Serializable {
       String line = scanner.nextLine();
       City city = new City(line, adminMap);
 
-      if (countryCodes.isEmpty() || countryCodes.contains(city.countryCode.toUpperCase())) {
+      if (!skipCountryCodes.contains(city.countryCode.toUpperCase()) && (countryCodes.isEmpty() || countryCodes.contains(city.countryCode.toUpperCase()))) {
         cities.add(city);
       }
     }
