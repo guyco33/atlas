@@ -2,33 +2,24 @@ package atlas;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.Serializable;
 import java.util.*;
 
-public class CityIndex implements Serializable {
+public class CityIndex implements Index {
 
-  enum Direction {
+  private enum Direction {
     UP, DOWN, RIGHT, LEFT
   }
-
-  public static final String DATA_FOLDER_NAME = "./data";
-  public static final String ADMIN1_DATA_FILE_NAME = "admin1CodesASCII.txt";
-  public static final String ADMIN2_DATA_FILE_NAME = "admin2Codes.txt";
-  public static final String CITY_DATA_FILE_NAME = "cities1000.txt";
-
-  public static final String INDEX_FOLDER_NAME = "./src/main/resources";
-  public static final String INDEX_FILE_NAME = "index.ser";
 
   private final NavigableMap<Double, Set<City>> latitudeIndex;
   private final NavigableMap<Double, Set<City>> longitudeIndex;
 
   @SuppressWarnings("unused")
-  public CityIndex() {
+  private CityIndex() {
     // Public no-args constructor needed for serialization lib.
     this(new HashSet<City>());
   }
 
-  protected CityIndex(Set<City> cities) {
+  private CityIndex(Set<City> cities) {
 
     this.latitudeIndex = new TreeMap<>();
     this.longitudeIndex = new TreeMap<>();
@@ -38,12 +29,12 @@ public class CityIndex implements Serializable {
     }
   }
 
-  protected void insert(City city) {
+  private void insert(City city) {
     insert(city.latitude, city, this.latitudeIndex);
     insert(city.longitude, city, this.longitudeIndex);
   }
 
-  protected void insert(Double key, City city, NavigableMap<Double, Set<City>> index) {
+  private void insert(Double key, City city, NavigableMap<Double, Set<City>> index) {
     Set<City> cities = index.remove(key);
 
     if (cities == null) {
@@ -54,12 +45,12 @@ public class CityIndex implements Serializable {
     index.put(key, cities);
   }
 
-  protected City nearestNeighbour(double latitude, double longitude, double maxDistance) {
+  public City nearestNeighbour(double latitude, double longitude, double maxDistance) {
     List<City> hits = this.nearestNeighbours(latitude, longitude, maxDistance, 1);
     return hits.isEmpty() ? null : hits.get(0);
   }
 
-  protected List<City> nearestNeighbours(double latitude, double longitude, double maxDistance, int maxHits) {
+  public List<City> nearestNeighbours(double latitude, double longitude, double maxDistance, int maxHits) {
 
     City center = new City(latitude, longitude);
     SortedSet<City> hits = new TreeSet<>(new DistanceComparator(center));
