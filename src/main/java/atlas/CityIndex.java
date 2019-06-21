@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-public class CityIndex implements Index {
-
+public class CityIndex implements Index
+{
   private enum Direction {
     UP, DOWN, RIGHT, LEFT
   }
@@ -14,13 +14,14 @@ public class CityIndex implements Index {
   private final NavigableMap<Double, Set<City>> longitudeIndex;
 
   @SuppressWarnings("unused")
-  private CityIndex() {
+  private CityIndex()
+  {
     // Public no-args constructor needed for serialization lib.
     this(new HashSet<City>());
   }
 
-  private CityIndex(Set<City> cities) {
-
+  private CityIndex(Set<City> cities)
+  {
     this.latitudeIndex = new TreeMap<>();
     this.longitudeIndex = new TreeMap<>();
 
@@ -29,12 +30,14 @@ public class CityIndex implements Index {
     }
   }
 
-  private void insert(City city) {
+  private void insert(City city)
+  {
     insert(city.latitude, city, this.latitudeIndex);
     insert(city.longitude, city, this.longitudeIndex);
   }
 
-  private void insert(Double key, City city, NavigableMap<Double, Set<City>> index) {
+  private void insert(Double key, City city, NavigableMap<Double, Set<City>> index)
+  {
     Set<City> cities = index.remove(key);
 
     if (cities == null) {
@@ -45,13 +48,14 @@ public class CityIndex implements Index {
     index.put(key, cities);
   }
 
-  public City nearestNeighbour(double latitude, double longitude, double maxDistance) {
+  public City nearestNeighbour(double latitude, double longitude, double maxDistance)
+  {
     List<City> hits = this.nearestNeighbours(latitude, longitude, maxDistance, 1);
     return hits.isEmpty() ? null : hits.get(0);
   }
 
-  public List<City> nearestNeighbours(double latitude, double longitude, double maxDistance, int maxHits) {
-
+  public List<City> nearestNeighbours(double latitude, double longitude, double maxDistance, int maxHits)
+  {
     City center = new City(latitude, longitude);
     SortedSet<City> hits = new TreeSet<>(new DistanceComparator(center));
 
@@ -67,7 +71,8 @@ public class CityIndex implements Index {
   }
 
   private void fillHits(City center, Set<City> hits, Map.Entry<Double, Set<City>> entry,
-                        NavigableMap<Double, Set<City>> index, Direction direction, double maxDistance) {
+                        NavigableMap<Double, Set<City>> index, Direction direction, double maxDistance)
+  {
     while (true) {
 
       if (entry == null || entry.getValue() == null) {
@@ -109,8 +114,8 @@ public class CityIndex implements Index {
   }
 
   // Utility method that reads a single city from a map-entry.
-  private City getCityFrom(Map.Entry<Double, Set<City>> entry) {
-
+  private City getCityFrom(Map.Entry<Double, Set<City>> entry)
+  {
     if (entry == null || entry.getValue().isEmpty()) {
       // Should not happen.
       throw new RuntimeException("corrupt index: recreate the index");
@@ -130,8 +135,8 @@ public class CityIndex implements Index {
    * @throws FileNotFoundException when the file with cities couldn't
    * be found: ./{@value #INDEX_FOLDER_NAME}/{@value #CITY_DATA_FILE_NAME}
    */
-  public static void main(String[] args) throws FileNotFoundException{
-
+  public static void main(String[] args) throws FileNotFoundException
+  {
     Set<String> countryCodes = new HashSet<>();
     Set<String> skipCountryCodes = new HashSet<>();
 
@@ -145,7 +150,8 @@ public class CityIndex implements Index {
       }
     }
 
-    if (countryCodes.isEmpty() && skipCountryCodes.isEmpty()) {
+    if (countryCodes.isEmpty() && skipCountryCodes.isEmpty())
+    {
       System.out.printf("Reading all cities from %s/%s\n", DATA_FOLDER_NAME, ADMIN1_DATA_FILE_NAME);
     }
     else {
@@ -182,3 +188,4 @@ public class CityIndex implements Index {
     System.out.printf("OK!\nRun `mvn package` to create a JAR file containing the newly created index.\n");
   }
 }
+
