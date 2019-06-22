@@ -92,10 +92,11 @@ public class CityIndexS2 implements Index
     {
         City center = new City(latitude, longitude);
         List<City> hits = new ArrayList<>();
+        boolean searchedUppeLevelAfterMaxHitsMatched = false;
         for (int level = HIGH_LEVEL; level >= LOW_LEVEL; level--) {
             SortedSet<City> levelMatched = new TreeSet<>(new DistanceComparator(center));
             S2CellId cellId = S2CellId.fromLatLng(S2LatLng.fromDegrees(latitude, longitude)).parent(level);
-            List<S2CellId> neighbours = new ArrayList<S2CellId>();
+            List<S2CellId> neighbours = new ArrayList<>();
             cellId.getAllNeighbors(level, neighbours);
             for (S2CellId neighbour: neighbours ) {
                 Set<City> cities = s2MultiLevelIndex.get(level).map.get(neighbour.toToken());
@@ -107,6 +108,10 @@ public class CityIndexS2 implements Index
                 hits.add(hit);
             }
             if(hits.size() >= maxHits) {
+                if (!searchedUppeLevelAfterMaxHitsMatched) {
+                    searchedUppeLevelAfterMaxHitsMatched = true;
+                    continue;
+                }
                 break;
             }
         }
