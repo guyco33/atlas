@@ -163,7 +163,7 @@ public class CityIndex implements Index
       }
     }
 
-    Map<String, String> adminMap = new LinkedHashMap<>();
+    Map<String, ArrayList<String>> adminMap = new LinkedHashMap<>();
 
     adminMap.putAll(Utils.read(new File(DATA_FOLDER_NAME, ADMIN1_DATA_FILE_NAME), "\t"));
     adminMap.putAll(Utils.read(new File(DATA_FOLDER_NAME, ADMIN2_DATA_FILE_NAME), "\t"));

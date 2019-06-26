@@ -26,4 +26,5 @@ public class CityTest {
     // Must be accurate within 3 km.
     return delta <= 3;
   }
+
 } 

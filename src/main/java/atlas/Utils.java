@@ -7,6 +7,8 @@ import com.esotericsoftware.kryo.io.Output;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -65,21 +67,33 @@ public final class Utils
         }
     }
 
-    public static Map<String, String> read(File file, String delimiter)
+    public static Map<String, ArrayList<String>> read(File file, String delimiter)
     {
-        Map<String, String> map = new LinkedHashMap<>();
+        Map<String,  ArrayList<String>> map = new LinkedHashMap<>();
         try {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
-                String[] tokens = scanner.nextLine().split(Pattern.quote(delimiter));
-                if (tokens.length >= 2) {
-                    map.put(tokens[0], tokens[1]);
+                String line = scanner.nextLine();
+                if (!line.startsWith("#")) {
+                    String[] tokens = line.split(Pattern.quote(delimiter));
+                    if (tokens.length >= 2) {
+                        map.put(tokens[0], new ArrayList<>(Arrays.asList(Arrays.copyOfRange(tokens,1, tokens.length))));
+                    }
                 }
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
         return map;
+    }
+
+    public static Object getOrElse(ArrayList<String> values, int index) {
+        if (values == null) {
+            return null;
+        }
+        else {
+            return values.get(index);
+        }
     }
 }
 

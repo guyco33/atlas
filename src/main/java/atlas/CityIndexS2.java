@@ -154,10 +154,11 @@ public class CityIndexS2 implements Index
             }
         }
 
-        Map<String, String> adminMap = new LinkedHashMap<>();
+        Map<String, ArrayList<String>> adminMap = new LinkedHashMap<>();
 
         adminMap.putAll(Utils.read(new File(DATA_FOLDER_NAME, ADMIN1_DATA_FILE_NAME), "\t"));
         adminMap.putAll(Utils.read(new File(DATA_FOLDER_NAME, ADMIN2_DATA_FILE_NAME), "\t"));
+        adminMap.putAll(Utils.read(new File(DATA_FOLDER_NAME, COUNTY_DATA_FILE_NAME), "\t"));
 
         Scanner scanner = new Scanner(new File(DATA_FOLDER_NAME, CITY_DATA_FILE_NAME));
         Set<City> cities = new LinkedHashSet<>();

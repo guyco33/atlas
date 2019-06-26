@@ -8,6 +8,7 @@ public interface Index extends Serializable {
     String DATA_FOLDER_NAME = "./data";
     String ADMIN1_DATA_FILE_NAME = "admin1CodesASCII.txt";
     String ADMIN2_DATA_FILE_NAME = "admin2Codes.txt";
+    String COUNTY_DATA_FILE_NAME = "countryInfo.txt";
     String CITY_DATA_FILE_NAME = "cities1000.txt";
 
     String INDEX_FOLDER_NAME = "./src/main/resources";

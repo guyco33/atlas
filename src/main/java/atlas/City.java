@@ -1,6 +1,7 @@
 package atlas;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -9,48 +10,29 @@ import static atlas.Utils.*;
 public class City implements Serializable
 {
     public static final int COLUMNS = 19;
-
     public static final String DELIMITER = "\t";
-
-    /**
-     * integer id of record in geonames database
-     */
     public final int geoNameId;
-
-    /**
-     * name of geographical point (utf8) varchar(200)
-     */
     public final String name;
-
-    /**
-     * latitude in decimal degrees (wgs84)
-     */
     public final double latitude;
-
-    /**
-     * longitude in decimal degrees (wgs84)
-     */
     public final double longitude;
-
-    /**
-     * ISO-3166 2-letter country code, 2 characters
-     */
     public final String countryCode;
-
-    /**
-     * the timezone id (see file timeZone.txt) varchar(40)
-     */
     public final String timeZone;
-
     /**
      * name for administrative subdivision 1
      */
     public final String admin1;
-
     /**
      * name for administrative subdivision 2
      */
     public final String admin2;
+    public final String countryName;
+    public final String capital;
+    public final double countryArea;  // in Km
+    public final long countryPopulation;
+    public final String continent;
+    public final String currencyCode;
+    public final String currencyName;
+
 
     // Public no-args constructor needed for serialization.
     @SuppressWarnings("unused")
@@ -58,7 +40,7 @@ public class City implements Serializable
         this(0.0, 0.0);
     }
 
-    protected City(String line, Map<String, String> adminMap)
+    protected City(String line, Map<String, ArrayList<String>> adminMap)
     {
         String[] tokens = line.split(DELIMITER);
 
@@ -77,8 +59,15 @@ public class City implements Serializable
         String admin1Code = tokens[10];
         String admin2Code = tokens[11];
 
-        this.admin1 = adminMap.get(String.format("%s.%s", this.countryCode, admin1Code));
-        this.admin2 = adminMap.get(String.format("%s.%s.%s", this.countryCode, admin1Code, admin2Code));
+        this.admin1 = (String)Utils.getOrElse(adminMap.get(String.format("%s.%s", this.countryCode, admin1Code)),0);
+        this.admin2 = (String)Utils.getOrElse(adminMap.get(String.format("%s.%s.%s", this.countryCode, admin1Code, admin2Code)), 0);
+        this.countryName = (String)Utils.getOrElse(adminMap.get(this.countryCode),3);
+        this.capital = (String)Utils.getOrElse(adminMap.get(this.countryCode),4);
+        this.countryArea = Double.parseDouble((String)Utils.getOrElse(adminMap.get(this.countryCode),5));
+        this.countryPopulation = Long.parseLong((String)Utils.getOrElse(adminMap.get(this.countryCode),6));
+        this.continent = (String)Utils.getOrElse(adminMap.get(this.countryCode),7);
+        this.currencyCode = (String)Utils.getOrElse(adminMap.get(this.countryCode),9);
+        this.currencyName = (String)Utils.getOrElse(adminMap.get(this.countryCode),10);
     }
 
     protected City(double latitude, double longitude)
@@ -91,6 +80,13 @@ public class City implements Serializable
         this.timeZone = null;
         this.admin1 = null;
         this.admin2 = null;
+        this.countryName = null;
+        this.capital = null;
+        this.countryArea = 0;
+        this.countryPopulation = 0;
+        this.continent = null;
+        this.currencyCode = null;
+        this.currencyName = null;
     }
 
     /**
@@ -144,6 +140,13 @@ public class City implements Serializable
                 "\n timeZone='" + timeZone + '\'' +
                 "\n admin1='" + admin1 + '\'' +
                 "\n admin2='" + admin2 + '\'' +
+                "\n countryName='" + countryName + '\'' +
+                "\n capital='" + capital + '\'' +
+                "\n countryArea='" + countryArea + '\'' +
+                "\n countryPopulation='" + countryPopulation + '\'' +
+                "\n continent='" + continent + '\'' +
+                "\n currencyCode='" + currencyCode + '\'' +
+                "\n currencyName='" + currencyName + '\'' +
                 "\n}";
     }
 }
