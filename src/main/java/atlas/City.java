@@ -1,5 +1,8 @@
 package atlas;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,20 +14,15 @@ public class City implements Serializable
 {
     public static final int COLUMNS = 19;
     public static final String DELIMITER = "\t";
+
     public final int geoNameId;
     public final String name;
     public final double latitude;
     public final double longitude;
     public final String countryCode;
     public final String timeZone;
-    /**
-     * name for administrative subdivision 1
-     */
-    public final String admin1;
-    /**
-     * name for administrative subdivision 2
-     */
-    public final String admin2;
+    public final String admin1; //name for administrative subdivision 1
+    public final String admin2; // name for administrative subdivision 2
     public final String countryName;
     public final String capital;
     public final double countryArea;  // in Km
@@ -112,6 +110,12 @@ public class City implements Serializable
         return R * c;
     }
 
+    public Map<String, Object> info() {
+        ObjectMapper mapObject= new ObjectMapper();
+        Map<String, Object> mapObj= mapObject.convertValue(this, Map.class);
+        return mapObj;
+    }
+
     @Override
     public boolean equals(Object o)
     {
@@ -131,22 +135,11 @@ public class City implements Serializable
     @Override
     public String toString()
     {
-        return "City{" +
-                "\n geoNameId=" + geoNameId +
-                "\n name='" + name + '\'' +
-                "\n latitude=" + latitude +
-                "\n longitude=" + longitude +
-                "\n countryCode='" + countryCode + '\'' +
-                "\n timeZone='" + timeZone + '\'' +
-                "\n admin1='" + admin1 + '\'' +
-                "\n admin2='" + admin2 + '\'' +
-                "\n countryName='" + countryName + '\'' +
-                "\n capital='" + capital + '\'' +
-                "\n countryArea='" + countryArea + '\'' +
-                "\n countryPopulation='" + countryPopulation + '\'' +
-                "\n continent='" + continent + '\'' +
-                "\n currencyCode='" + currencyCode + '\'' +
-                "\n currencyName='" + currencyName + '\'' +
-                "\n}";
+        Map<String, Object> map = info();
+        try {
+            return new ObjectMapper().writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
     }
 }

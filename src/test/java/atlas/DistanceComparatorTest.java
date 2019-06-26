@@ -1,11 +1,11 @@
-package atlas; 
+package atlas;
 
-import org.junit.Test; 
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import org.testng.annotations.Test;
 
-public class DistanceComparatorTest { 
+import static org.testng.Assert.assertEquals;
+
+public class DistanceComparatorTest {
 
   @Test
   public void testCompare() throws Exception { 
@@ -18,11 +18,11 @@ public class DistanceComparatorTest {
 
     DistanceComparator comparator = new DistanceComparator(rotterdam);
 
-    assertThat(comparator.compare(amsterdam, schiedam), is(1));
-    assertThat(comparator.compare(amsterdam, groningen), is(-1));
-    assertThat(comparator.compare(amsterdam, amsterdam), is(0));
-    assertThat(comparator.compare(schiedam, utrecht), is(-1));
-    assertThat(comparator.compare(utrecht, schiedam), is(1));
-    assertThat(comparator.compare(schiedam, rotterdam), is(1));
+    assertEquals(comparator.compare(amsterdam, schiedam), 1);
+    assertEquals(comparator.compare(amsterdam, groningen), -1);
+    assertEquals(comparator.compare(amsterdam, amsterdam), 0);
+    assertEquals(comparator.compare(schiedam, utrecht), -1);
+    assertEquals(comparator.compare(utrecht, schiedam), 1);
+    assertEquals(comparator.compare(schiedam, rotterdam), 1);
   }
 } 

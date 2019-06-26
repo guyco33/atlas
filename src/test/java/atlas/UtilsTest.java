@@ -1,6 +1,6 @@
 package atlas;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.Map;
 
 import static atlas.Index.COUNTY_DATA_FILE_NAME;
 import static atlas.Index.DATA_FOLDER_NAME;
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 public class UtilsTest {
 

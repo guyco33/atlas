@@ -1,8 +1,8 @@
 package atlas;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
-import static org.junit.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 public class AtlasTest {
 
@@ -16,6 +16,5 @@ public class AtlasTest {
         assertEquals(city.capital, "Jerusalem");
         assertEquals(city.currencyCode, "ILS");
         assertEquals(city.continent, "AS");
-
     }
 }

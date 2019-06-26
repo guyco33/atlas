@@ -2,14 +2,14 @@ package atlas;
 
 import java.util.List;
 
-import static atlas.CityIndex.*;
+import static atlas.Index.INDEX_FILE_NAME;
 
 public class Atlas {
 
     public static final double DEFAULT_MAX_DISTANCE = 25000.0;
     public static final int DEFAULT_LIMIT = 10;
 
-    private static Index index = Utils.deserialize(INDEX_FILE_NAME, CityIndexS2.class);
+    private static Index index = Utils.deserialize(INDEX_FILE_NAME, CityIndex.class);
 
     private int limit;
     private double maxDistance;

@@ -19,16 +19,6 @@ public class Example
         City city = new Atlas().find(lat, lng);
 
         System.out.println(city);
-        //    City{
-        //      geoNameId=3164603
-        //      name='Venice'
-        //      latitude=45.43713
-        //      longitude=12.33265
-        //      countryCode='IT'
-        //      timeZone='Europe/Rome'
-        //      admin1='Veneto'
-        //      admin2='Provincia di Venezia'
-        //    }
 
         int limit = 3;
         int maxDistance = 5000;
@@ -49,36 +39,6 @@ public class Example
         for (City c : cities) {
             System.out.println(c);
         }
-        //      City{
-        //        geoNameId=3164603
-        //        name='Venice'
-        //        latitude=45.43713
-        //        longitude=12.33265
-        //        countryCode='IT'
-        //        timeZone='Europe/Rome'
-        //        admin1='Veneto'
-        //        admin2='Provincia di Venezia'
-        //      }
-        //      City{
-        //        geoNameId=3175265
-        //        name='Giudecca'
-        //        latitude=45.42477
-        //        longitude=12.32906
-        //        countryCode='IT'
-        //        timeZone='Europe/Rome'
-        //        admin1='Veneto'
-        //        admin2='Provincia di Venezia'
-        //      }
-        //      City{
-        //        geoNameId=3172456
-        //        name='Murano'
-        //        latitude=45.45857
-        //        longitude=12.35683
-        //        countryCode='IT'
-        //        timeZone='Europe/Rome'
-        //        admin1='Veneto'
-        //        admin2='Provincia di Venezia'
-        //      }
     }
 }
 
