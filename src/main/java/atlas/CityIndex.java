@@ -174,7 +174,8 @@ public class CityIndex implements Index
         }
 
         System.out.printf("Finished loading %s cities, writing index to disk...\n", cities.size());
-
+        File dir = new File(INDEX_FOLDER_NAME);
+        if (!dir.exists()) dir.mkdirs();
         Utils.serialize(new CityIndex(cities), new File(INDEX_FOLDER_NAME, INDEX_FILE_NAME));
 
         System.out.printf("OK!\nRun `mvn package` to create a JAR file containing the newly created index.\n");
