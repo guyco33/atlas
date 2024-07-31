@@ -111,6 +111,11 @@ to create an index of the counties Spain and Portugal, do the following:
     mvn -q exec:java -Dexec.args="ES,PT"
     mvn package
 
+to create an index of all countries without some, do the following:
+
+    mvn -q exec:java -Dexec.args="~JO,~SY,~LB,~EG"
+    mvn package -DskipTests -DargLine="-Xms512m -Xmx8g"
+
 ## credits
 
 * data from [GeoNames](http://www.geonames.org)

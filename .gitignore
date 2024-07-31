@@ -3,3 +3,6 @@
 target/
 site/
 lib/
+.DS_Store
+dependency-reduced-pom.xml
+**/*/index.ser

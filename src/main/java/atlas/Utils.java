@@ -16,6 +16,18 @@ import java.util.regex.Pattern;
 
 public final class Utils
 {
+    public static Kryo initKryo() {
+        Kryo kryo = new Kryo();
+        kryo.register(java.util.HashMap.class);
+        kryo.register(java.util.HashSet.class);
+        kryo.register(atlas.CityIndex.class);
+        kryo.register(atlas.CityIndex.LevelMap.class);
+        kryo.register(java.util.TreeMap.class);
+        kryo.register(java.util.LinkedHashSet.class);
+        kryo.register(atlas.City.class);
+        return kryo;
+    }
+
     public static Integer toInt(String value, Integer fallback)
     {
         if (value == null || value.isEmpty()) {
@@ -45,7 +57,7 @@ public final class Utils
     public static <T> T deserialize(String fileName, Class<T> type)
     {
         try {
-            Kryo kryo = new Kryo();
+            Kryo kryo = initKryo();
             Input input = new Input(Atlas.class.getResourceAsStream("/" + fileName));
             T value = kryo.readObject(input, type);
             input.close();
@@ -58,7 +70,7 @@ public final class Utils
     public static void serialize(Object value, File file)
     {
         try {
-            Kryo kryo = new Kryo();
+            Kryo kryo = initKryo();
             Output output = new Output(new FileOutputStream(file));
             kryo.writeObject(output, value);
             output.close();
